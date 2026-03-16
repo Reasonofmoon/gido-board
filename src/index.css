@@ -1,0 +1,55 @@
+:root {
+  --bg-dark: #07090F;
+  --bg-panel: rgba(15, 23, 42, 0.6);
+  
+  --board-bg: rgba(20, 28, 45, 0.7);
+  --board-grid: rgba(94, 234, 212, 0.2);
+  --board-border: rgba(94, 234, 212, 0.4);
+  --board-hoshi: rgba(94, 234, 212, 0.6);
+
+  --stone-black: radial-gradient(circle at 30% 30%, #4a5568 0%, #000000 70%, #000000 100%);
+  --stone-white: radial-gradient(circle at 30% 30%, #ffffff 0%, #e2e8f0 70%, #94a3b8 100%);
+  --stone-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+  --accent-cyan: #22d3ee;
+  --accent-glow: 0 0 15px rgba(34, 211, 238, 0.5);
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(34, 211, 238, 0.05), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(167, 139, 250, 0.05), transparent 25%);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

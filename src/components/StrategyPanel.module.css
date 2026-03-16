@@ -1,0 +1,149 @@
+.panel {
+  width: 350px;
+  height: calc(100vh - 4rem);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+}
+
+.header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(94, 234, 212, 0.1);
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.senteMeter {
+  width: 100%;
+  height: 8px;
+  background: #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.senteFill {
+  height: 100%;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  transition: width 0.5s ease;
+}
+
+.senteLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.kifuList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.kifuItem {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.kifuItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.kifuItem.active {
+  background: rgba(94, 234, 212, 0.1);
+  border-left-color: var(--accent-cyan);
+}
+
+.moveNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #1e293b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.moveContent {
+  flex-grow: 1;
+}
+
+.moveHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.moveTarget {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+}
+
+.moveType {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  text-transform: uppercase;
+}
+
+.moveType.fuseki { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+.moveType.joseki { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+.moveType.sente { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+
+.moveIntent {
+  font-size: 0.8rem;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.moveImpact {
+  font-size: 0.7rem;
+  color: #6ee7b7;
+}

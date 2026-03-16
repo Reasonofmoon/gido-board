@@ -1,0 +1,91 @@
+.stone {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: var(--stone-shadow);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stone:hover {
+  transform: scale(1.1);
+  z-index: 30;
+}
+
+.black {
+  background: var(--stone-black);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.white {
+  background: var(--stone-white);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.ghost {
+  opacity: 0.6;
+  animation: pulse 2s infinite alternate;
+}
+
+.ghost.black {
+  box-shadow: 0 0 15px rgba(94, 234, 212, 0.4);
+}
+
+.ghost.white {
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.4);
+}
+
+.quantum {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px dashed var(--accent-cyan);
+  animation: rotate 4s linear infinite;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  z-index: 50;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.stone:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 2px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  100% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
