@@ -16,6 +16,8 @@ import { scanProject } from '../encoder/board-state.js';
 import { renderBoardState } from './renderer.js';
 import { analyzeProject } from '../value/move-evaluator.js';
 import { renderAnalysis } from './analyze-renderer.js';
+import { searchPlan } from '../search/mcts-engine.js';
+import { renderPlan } from './plan-renderer.js';
 
 const program = new Command();
 
@@ -105,12 +107,31 @@ program
     }
   });
 
-// ── Phase 3 stubs ──
+// ── gido plan ──
 program
   .command('plan')
-  .description('[Phase 3] n수 앞 개발 경로 탐색 (MCTS)')
-  .action(() => {
-    console.log('\n  ⏳ gido plan will be available in Phase 3 (MCTS Search Engine).\n');
+  .description('n수 앞 개발 경로 탐색 (MCTS Search)')
+  .argument('[dir]', 'Project directory', '.')
+  .option('--depth <depth>', 'Search depth (number of steps ahead)', '3')
+  .option('--simulations <n>', 'Number of MCTS simulations', '12')
+  .action(async (dir: string, opts: { depth?: string; simulations?: string }) => {
+    const targetDir = resolve(dir);
+    const depth = parseInt(opts.depth || '3', 10);
+    const sims = parseInt(opts.simulations || '12', 10);
+    console.log(`\n  Scanning & planning ${depth}수 ahead (${sims} simulations)...\n`);
+
+    try {
+      const boardState = scanProject(targetDir);
+      const result = await searchPlan(boardState, {
+        maxDepth: depth,
+        numSimulations: sims,
+      });
+      const output = renderPlan(result, boardState.summary.overallHealth);
+      console.log(output);
+    } catch (err) {
+      console.error(`  Error: ${err instanceof Error ? err.message : String(err)}`);
+      process.exit(1);
+    }
   });
 
 program
