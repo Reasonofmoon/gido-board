@@ -1,0 +1,25 @@
+{
+  "name": "@gido/cli",
+  "version": "0.1.0",
+  "description": "碁道코딩 CLI — 바둑 AI의 전략적 지혜를 코드에 심는 도구",
+  "type": "module",
+  "bin": {
+    "gido": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli/index.ts",
+    "scan": "tsx src/cli/index.ts scan"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dependency-cruiser": "^16.4.0",
+    "simple-git": "^3.25.0",
+    "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
