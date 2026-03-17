@@ -5,14 +5,17 @@
  * "선수를 잡는 자가 판을 지배한다"
  *
  * Commands:
- *   gido scan    — 프로젝트 형세도 (Board Scan)
- *   gido         — 형세 요약 + 최선의 다음 수 추천 (coming in Phase 2)
+ *   gido scan      — 프로젝트 형세도 (Board Scan)
+ *   gido analyze   — 후보수 분석 (Move Analysis)
+ *   gido           — 형세 요약 + 최선의 다음 수 추천
  */
 
 import { Command } from 'commander';
 import { resolve } from 'path';
 import { scanProject } from '../encoder/board-state.js';
 import { renderBoardState } from './renderer.js';
+import { analyzeProject } from '../value/move-evaluator.js';
+import { renderAnalysis } from './analyze-renderer.js';
 
 const program = new Command();
 
@@ -40,33 +43,88 @@ program
     }
   });
 
-// ── gido (default) — Phase 2에서 구현 ──
+// ── gido analyze ──
 program
-  .command('analyze', { hidden: true })
-  .description('[Phase 2] 후보 행동 리스트 + ΔHealth 출력')
-  .action(() => {
-    console.log('\n  ⏳ gido analyze will be available in Phase 2 (Policy & Value Engine).\n');
+  .command('analyze')
+  .description('후보 행동 분석 + ΔHealth 출력 (Move Analysis)')
+  .argument('[dir]', 'Project directory to analyze', '.')
+  .option('--provider <provider>', 'LLM provider: anthropic, openai, or heuristic', undefined)
+  .option('--model <model>', 'LLM model name override', undefined)
+  .action(async (dir: string, opts: { provider?: string; model?: string }) => {
+    const targetDir = resolve(dir);
+    console.log(`\n  Scanning & analyzing ${targetDir}...\n`);
+
+    try {
+      // Phase 1: Scan
+      const boardState = scanProject(targetDir);
+
+      // Phase 2: Analyze
+      const llmConfig: any = {};
+      if (opts.provider) llmConfig.provider = opts.provider;
+      if (opts.model) llmConfig.model = opts.model;
+
+      const result = await analyzeProject(boardState, llmConfig);
+      const output = renderAnalysis(result);
+      console.log(output);
+    } catch (err) {
+      console.error(`  Error: ${err instanceof Error ? err.message : String(err)}`);
+      process.exit(1);
+    }
   });
 
+// ── gido (default) — Quick recommendation ──
 program
-  .command('plan', { hidden: true })
+  .command('recommend', { isDefault: true })
+  .description('형세 요약 + 최선의 다음 수 1개 추천')
+  .argument('[dir]', 'Project directory', '.')
+  .action(async (dir: string) => {
+    const targetDir = resolve(dir);
+
+    try {
+      const boardState = scanProject(targetDir);
+      const result = await analyzeProject(boardState);
+
+      // Quick summary
+      const s = boardState.summary;
+      const healthColor = s.overallHealth >= 0 ? '\x1b[32m' : '\x1b[31m';
+      console.log('');
+      console.log(`  碁道코딩 — Quick Read`);
+      console.log(`  Health: ${healthColor}${s.overallHealth.toFixed(2)}\x1b[0m  |  ${s.totalFiles} files  |  Cycles: ${s.cycleCount}`);
+
+      if (result.evaluations.length > 0) {
+        const best = result.evaluations[0];
+        console.log('');
+        console.log(`  \x1b[1m▶ Next move: ${best.action.intent}\x1b[0m`);
+        console.log(`    ${best.badukTerm}  |  ΔHealth: ${best.deltaHealth >= 0 ? '+' : ''}${best.deltaHealth.toFixed(2)}`);
+        console.log(`    Target: ${best.action.target}`);
+      }
+      console.log('');
+    } catch (err) {
+      console.error(`  Error: ${err instanceof Error ? err.message : String(err)}`);
+      process.exit(1);
+    }
+  });
+
+// ── Phase 3 stubs ──
+program
+  .command('plan')
   .description('[Phase 3] n수 앞 개발 경로 탐색 (MCTS)')
   .action(() => {
     console.log('\n  ⏳ gido plan will be available in Phase 3 (MCTS Search Engine).\n');
   });
 
 program
-  .command('play', { hidden: true })
+  .command('play')
   .description('[Phase 4] 선택한 행동 실행 + Git 커밋')
   .action(() => {
     console.log('\n  ⏳ gido play will be available in Phase 4 (CLI UX Integration).\n');
   });
 
 program
-  .command('review', { hidden: true })
-  .description('[Phase 2] 최근 변경의 ΔHealth 복기')
+  .command('review')
+  .description('[Phase 2+] 최근 변경의 ΔHealth 복기')
   .action(() => {
-    console.log('\n  ⏳ gido review will be available in Phase 2.\n');
+    console.log('\n  ⏳ gido review coming soon.\n');
   });
 
 program.parse();
