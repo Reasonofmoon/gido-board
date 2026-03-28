@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Shield, Zap, GitBranch } from 'lucide-react';
+import { Activity, Zap, GitBranch } from 'lucide-react';
 import styles from './StrategyPanel.module.css';
 
 export interface KifuMove {

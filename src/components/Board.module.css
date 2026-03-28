@@ -2,16 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
+}
+
+@media (min-width: 640px) {
+  .boardContainer { padding: 2rem; }
 }
 
 .board {
   display: grid;
   grid-template-columns: repeat(19, 1fr);
   grid-template-rows: repeat(19, 1fr);
-  width: 600px;
-  height: 600px;
+  width: min(calc(100vw - 2rem), 600px);
+  height: min(calc(100vw - 2rem), 600px);
   background-color: var(--board-bg);
   border: 2px solid var(--board-border);
   position: relative;

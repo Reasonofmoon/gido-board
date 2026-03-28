@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Board.module.css';
-import { Stone, StoneProps } from './Stone';
+import { Stone, type StoneProps } from './Stone';
 
 // Standard 19x19 star points (hoshi)
 const HOSHI_POINTS = [
